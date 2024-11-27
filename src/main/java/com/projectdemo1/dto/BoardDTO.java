@@ -79,7 +79,8 @@ public class BoardDTO {
         this.bno = board.getBno();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.petColor = board.getPetColor();  // PetColor 객체 그대로 사용
+        this.petColor = board.getPetColor();
+        this.petColorType = board.getPetColor().getColor();// PetColor 객체 그대로 사용
         this.createdAt = board.getCreatedAt();
         this.updatedAt = board.getUpdatedAt();
         this.user = board.getUser();

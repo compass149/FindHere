@@ -117,7 +117,6 @@
                     <table class="table detail-table mt-0 mb-30">
                         <caption>
                             분실신고자 정보로 신고자, 연락처를 안내하고 있습니다.
-                            <span th:text="${dto.petColorType}"></span>
                         </caption>
                         <colgroup>
                             <col style="width: 500px">
@@ -130,7 +129,7 @@
                             <th scope="row" class="first">신고자</th>
                             <td class="text-left">[[${dto.user.nickname}]]</td>
                             <th scope="row">연락처</th>
-                            <td class="text-left last">[[${dto.mobile}]]</td>
+                            <td class="text-left last">[[${dto.user.mobile}]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -179,9 +178,9 @@
                             <th scope="row" class="first">품종</th>
                             <td class="text-left">[[${dto.petBreeds}]]</td>
                             <th scope="row">털 색상</th>
-                            <td class="text-left last">[[${dto.petColorType}]]</td>
-                            <th scope="row"  th:unless="${dto.postType == '주인찾기'}">이름</th>
-                            <td class="text-left last"  th:unless="${dto.postType == '주인찾기'}">[[${dto.petName}]]</td>
+                            <td class="text-left last">[[${dto.petColor.color}]]</td>
+                            <th scope="row"  th:unless="${dto.postType == '동물찾기'}">이름</th>
+                            <td class="text-left last"  th:unless="${dto.postType == '동물찾기'}">[[${dto.petName}]]</td>
                         </tr>
                         <tr>
                             <th scope="row" class="first">성별</th>
@@ -198,7 +197,7 @@
                         <tr>
                             <th scope="row" class="first"
                                 th:text="${dto.postType == '주인찾기' ? '발견장소' : '잃어버린 장소'}"></th>
-                            <td class="text-left last" colspan="3">[[${dto.lostDate}]] [[${dto.location}]] [[${dto.locationDetail}]]</td>
+                            <td class="text-left last" colspan="3">[[${dto.location}]] [[${dto.locationDetail}]]</td>
                         </tr>
                         </tbody>
                     </table>

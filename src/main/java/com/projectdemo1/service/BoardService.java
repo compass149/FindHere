@@ -61,6 +61,7 @@ Long register(BoardDTO boardDTO);
                 .petWeight(board.getPetWeight())
                 .petType(board.getPetType())
                 .mobile(User.getMobile)
+                .petColor(board.getPetColor())
                 .user(board.getUser())
                 .build();
 

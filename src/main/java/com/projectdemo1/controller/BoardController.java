@@ -89,7 +89,7 @@ public class BoardController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute Board board,
-                            @RequestBody PetColorType petColorType,  // PetColorType as a request parameter
+                            @RequestParam PetColorType petColorType,  // PetColorType as a request parameter
                             PrincipalDetails principal) {
         PetColor petColor = new PetColor(petColorType);  // Create PetColor object using PetColorType
         board.setPetColor(petColor);
