@@ -33,15 +33,15 @@
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text">번호</span>
-                        <input type="text" class="form-control" th:value="${dto.cno}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.cno}" readonly style="background-color: white">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">제목</span>
-                        <input type="text" class="form-control" th:value="${dto.title}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.title}" readonly style="background-color: white">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">내용</span>
-                        <textarea class="form-control col-sm-5" rows="5" readonly>[[${dto.content}]]</textarea>
+                        <textarea class="form-control col-sm-5" rows="5" readonly style="background-color: white">[[${dto.content}]]</textarea>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">첨부파일</span>
@@ -54,15 +54,17 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">작성자</span>
-                        <input type="text" class="form-control" th:value="${dto.writer}" readonly>
+                        <input type="text" class="form-control" th:value="${dto.writer}" readonly style="background-color: white">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">작성일</span>
-                        <input type="text" class="form-control" th:value="${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}" readonly>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}"
+                               readonly style="background-color: white">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">수정일</span>
-                        <input type="text" class="form-control" th:value="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd')}" readonly>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.updatedAt, 'yyyy-MM-dd')}"
+                               readonly style="background-color: white">
                     </div>
                     <div class="my-4">
                         <div class="float-end" th:with="link = ${cpageRequestDTO.getLink()}">
@@ -187,7 +189,6 @@
     }
 
     function printReplies(page, size, goLast) {
-        alert(cno)
         getList({cno, page, size, goLast}).then(
             data => {
                 printList(data.dtoList);
@@ -205,6 +206,7 @@
     const registerBtn = document.querySelector(".registerBtn");
     const replyText = document.querySelector(".replyText");
     const replyer = document.querySelector(".replyer");
+    const createdAt = document.querySelector(".createdAt");
     const closeRegisterBtn = document.querySelector(".closeRegisterBtn");
 
     document.querySelector(".addReplyBtn").addEventListener("click", function (e){
@@ -224,17 +226,18 @@
         const replyObj = {
             cno: cno,
             replyText: replyText.value,
-            replyer: replyer.value
+            replyer: replyer.value,
+            createdAt : createdAt.value,
         };
 
         addReply(replyObj).then(result => {
-            alert(result.rno);
             registerModal.hide();
             replyText.value = '';
             replyer.value = '';
+            createdAt.value = '';
             printReplies(1, 10, true); // Refresh the comment list
         }).catch(e => {
-            alert("Exception...");
+            alert("예외가 발생했습니다. 다시 시도해주십시오.");
         });
     }, false);
 
@@ -299,7 +302,7 @@
         };
 
         modifyReply(replyObj).then(result => {
-            alert(result.rno + ' 댓글이 수정되었습니다.');
+            alert('댓글이 수정되었습니다.');
             replyText.value = '';
             modifyModal.hide();
             printReplies(page, size);
@@ -314,7 +317,7 @@
 
     removeBtn.addEventListener("click", function(e) {
         removeReply(replyHeader.innerHTML).then(result => {
-            alert(result.rno + ' 댓글이 삭제되었습니다.');
+            alert('댓글이 삭제되었습니다.');
             replyText.value = '';
             modifyModal.hide();
             page = 1; // Reset to the first page

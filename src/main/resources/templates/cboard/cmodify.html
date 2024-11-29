@@ -7,21 +7,21 @@
 <div layout:fragment="content">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Modify Page</h5>
+            <h5 class="card-title">[[${dto.title}]] 수정하기</h5>
             <form action="/cboard/cmodify" method="post" enctype="multipart/form-data" id="f1">
                 <input type="hidden" name="cno" th:value="${dto.cno}">
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Title</span>
+                    <span class="input-group-text">제목</span>
                     <input type="text" class="form-control" name="title" th:value="${dto.title}">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Content</span>
+                    <span class="input-group-text">내용</span>
                     <textarea name="content" class="form-control col-sm-5" rows="5">[[${dto.content}]]</textarea>
                 </div>
 
                 <div class="input-group uploadResult mb-3">
-                    <span class="input-group-text">Attached Files</span>
+                    <span class="input-group-text">첨부파일</span>
                     <div class="col" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
                         <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
                             <img class="m-3" th:each="fileName : ${dto.fileNames}"
@@ -33,19 +33,19 @@
                 <div class="uploadHidden"></div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">File Upload</span>
-                    <input type="file" class="form-control" name="files">
+                    <span class="input-group-text">파일 업로드</span>
+                    <input type="file" class="form-control" id="files" name="files" multiple>
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Writer</span>
-                    <input type="text" class="form-control" name="writer" th:value="${dto.writer}">
+                    <span class="input-group-text">작성자</span>
+                    <input type="text" class="form-control" name="writer" th:value="${#authentication.principal.username}">
                 </div>
 
                 <div class="input-group mb-3">
-                    <button type="button" id="modifyBtn" class="btn btn-primary">Modify</button>
-                    <button type="button" id="removeBtn" class="btn btn-secondary">Remove</button>
-                    <button type="button" id="listBtn" class="btn btn-secondary">List</button>
+                    <button type="button" id="modifyBtn" class="btn btn-primary">수정</button>
+                    <button type="button" id="removeBtn" class="btn btn-secondary">삭제</button>
+                    <button type="button" id="listBtn" class="btn btn-secondary">목록</button>
                 </div>
             </form>
         </div>
