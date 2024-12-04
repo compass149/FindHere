@@ -81,7 +81,7 @@
             return;
         }
 
-        fetch(`/check-username?username=${username}`)
+        fetch(`/user/check-username?username=${username}`)
             .then(response => response.json())
             .then(data => {
                 if (data.available) {
@@ -106,7 +106,7 @@
             return;
         }
 
-        fetch(`/check-nickname?nickname=${nickname}`)
+        fetch(`/user/check-nickname?nickname=${nickname}`)
             .then(response => response.json())
             .then(data => {
                 if (data.available) {

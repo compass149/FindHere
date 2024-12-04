@@ -121,7 +121,7 @@ public class UserController {
         return "redirect:/logout"; // 삭제 후 로그아웃으로 리디렉션
     }
 
-    @GetMapping("/check-username")
+    @GetMapping("/user/check-username")
     @ResponseBody
     public Map<String, Object> checkUserId(@RequestParam String username) {
         log.info("아이디 중복 체크 요청: {}", username);
@@ -131,7 +131,7 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("/check-nickname")
+    @GetMapping("/user/check-nickname")
     @ResponseBody
     public Map<String, Object> checkNickname(@RequestParam String nickname) {
         log.info("닉네임 중복 체크 요청: {}", nickname);
