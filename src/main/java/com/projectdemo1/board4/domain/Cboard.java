@@ -13,10 +13,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
 @ToString(exclude = "imageSet")
 public class Cboard {
     @Id

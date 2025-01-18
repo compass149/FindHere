@@ -19,8 +19,7 @@ public class BoardImage implements Comparable<BoardImage> {
     private String uuid;
     private String fileName;
     private int ord;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bno") // board 테이블의 bno를 참조
+    @ManyToOne
     private Board board;
 
 

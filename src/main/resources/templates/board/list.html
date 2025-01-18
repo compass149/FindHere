@@ -187,8 +187,10 @@
                     <span th:text="${boardItem.createdAt}"></span>
                 </div>
                 <!-- 이미지가 있을 경우에만 표시 -->
-                <img th:src="@{/images/{image}(image=${boardItem.imageSet})}" alt="Pet Image"
-                     th:if="${boardItem.imageSet != null}">
+                <img th:if="${boardItem.imageSet != null and boardItem.imageSet.size() > 0}"
+                     th:src="@{/images/{image}(image=${boardItem.imageSet[0].getLink()})}"
+                     alt="Pet Image">
+
                 <div class="card-body">
                     <a style="text-decoration: none; text-decoration-line: none; text-decoration-color: #333333; color: #333333"
                        th:href="@{/board/read(bno=${boardItem.bno})}">

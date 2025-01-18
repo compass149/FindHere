@@ -3,11 +3,8 @@ package com.projectdemo1.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.projectdemo1.domain.boardContent.BoardImage;
-import com.projectdemo1.domain.boardContent.PetType;
-import com.projectdemo1.domain.boardContent.PostType;
 import com.projectdemo1.domain.boardContent.Status;
 import com.projectdemo1.domain.boardContent.color.PetColor;
-import com.projectdemo1.domain.boardContent.color.PetColorType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
@@ -28,6 +25,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
 public class Board {
 
     @Id
@@ -40,6 +38,7 @@ public class Board {
 
     private String title;
     private String petDescription;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lostDate;
     private String location;
     private String postType;
@@ -75,9 +74,10 @@ public class Board {
     @JsonIgnoreProperties("board")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @BatchSize(size = 50)
-    private Set<BoardImage> imageSet = new HashSet<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @BatchSize(size = 20)
+    private Set<BoardImage> imageSet= new HashSet<>(); // 이미지 목록
 
     @PrePersist
     public void prePersist() {
@@ -97,5 +97,11 @@ public class Board {
     public void clearImages() {
         imageSet.forEach(boardImage -> boardImage.changeBoard(null));
         this.imageSet.clear();
+    }
+
+    // change 메서드를 추가하여 제목과 내용을 변경할 수 있도록 함
+    public void change(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
