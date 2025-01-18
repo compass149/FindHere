@@ -6,9 +6,10 @@ import com.projectdemo1.board4.repository.search.CboardSearch;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public interface CboardRepository extends JpaRepository<Cboard, Long>, CboardSearch {
 
     @EntityGraph(attributePaths = {"imageSet"})

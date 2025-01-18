@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CreplyRepository extends JpaRepository<Creply, Long> {
     @Query("select r from Creply r where r.cboard.cno = :cno")
     Page<Creply> listOfCboard(Long cno, Pageable pageable);

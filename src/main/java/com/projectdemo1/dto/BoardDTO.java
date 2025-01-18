@@ -6,12 +6,9 @@ import com.projectdemo1.domain.Board;
 import com.projectdemo1.domain.Comment;
 import com.projectdemo1.domain.User;
 import com.projectdemo1.domain.boardContent.BoardImage;
-import com.projectdemo1.domain.boardContent.PetType;
-import com.projectdemo1.domain.boardContent.PostType;
 import com.projectdemo1.domain.boardContent.Status;
 import com.projectdemo1.domain.boardContent.color.PetColor;
 import com.projectdemo1.domain.boardContent.color.PetColorType;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -57,32 +54,31 @@ public class BoardDTO {
     private String petName;
     private Long uno;
 
-
-    // PetColor 객체로 수정
+    // PetColor 객체와 PetColorType 추가
     private PetColor petColor;
-    // private String petColor;
-    private PetColorType petColorType;  // Ensure this property exists
+    private PetColorType petColorType;
 
-    // Getter and Setter methods
-    public PetColorType getPetColorType() {
-        return petColorType;
-    }
-
-    public void setPetColorType(PetColorType petColorType) {
-        this.petColorType = petColorType;
-    }
     private User user;
     private String mobile;
     private String email;
 
+    // Board 객체로부터 생성자
     public BoardDTO(Board board) {
         this.bno = board.getBno();
         this.title = board.getTitle();
         this.content = board.getContent();
+
+        // PetColor 및 PetColorType 처리
         this.petColor = board.getPetColor();
-        this.petColorType = board.getPetColor().getColor();// PetColor 객체 그대로 사용
-        this.createdAt = board.getCreatedAt();
-        this.updatedAt = board.getUpdatedAt();
+        if (board.getPetColor() != null) {
+            this.petColorType = board.getPetColor().getColor(); // PetColorType을 가져옵니다.
+        }
+
+        // createdAt, updatedAt 처리: null일 경우 현재 시간으로 설정
+        this.createdAt = board.getCreatedAt() != null ? board.getCreatedAt() : LocalDateTime.now();
+        this.updatedAt = board.getUpdatedAt() != null ? board.getUpdatedAt() : LocalDateTime.now();
+
+        // User 정보 처리: user가 null일 경우 처리를 추가
         this.user = board.getUser();
         this.hitCount = board.getHitCount();
         this.imageSet = board.getImageSet();
@@ -98,7 +94,10 @@ public class BoardDTO {
         this.petWeight = board.getPetWeight();
         this.petType = board.getPetType();
         this.petName = board.getPetName();
-        this.uno =board.getUser().getUno();
+        this.uno = (board.getUser() != null) ? board.getUser().getUno() : null; // User가 null일 경우 처리를 추가
 
+        // 이메일, 전화번호 등 추가적인 필드 처리 (optional)
+        this.mobile = board.getUser() != null ? board.getUser().getMobile() : null;
+        this.email = board.getUser() != null ? board.getUser().getEmail() : null;
     }
 }

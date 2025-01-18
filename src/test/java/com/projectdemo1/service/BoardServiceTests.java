@@ -1,5 +1,6 @@
 package com.projectdemo1.service;
 
+import com.projectdemo1.domain.User;
 import com.projectdemo1.dto.BoardDTO;
 import com.projectdemo1.dto.PageRequestDTO;
 import com.projectdemo1.dto.PageResponseDTO;
@@ -22,7 +23,7 @@ public class BoardServiceTests {
         BoardDTO boardDTO = BoardDTO.builder()
                 .title("Sample Title...")
                 .content("Sample Content...")
-                .writer("user00")
+                .user(User.builder().build())
                 .build();
 
        // Long bno = boardService.register();

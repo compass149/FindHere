@@ -6,31 +6,32 @@
     <meta charset="UTF-8">
     <title>회원정보 수정</title>
     <style>
-        /* CSS 코드 시작 */
+        /* 기본 스타일 */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-
         }
 
         body {
             background-color: #f8f9fa;
             color: #333;
             font-size: 14px;
+            font-family: Arial, sans-serif;
         }
 
-        .header {
+      /*  .header {
             background-color: #a3d879;
             color: white;
             text-align: center;
+            padding: 20px 0;
         }
 
         .header .user-info a {
             color: #fff;
             text-decoration: none;
             margin-left: 15px;
-        }
+        }*/
 
         body > .container {
             display: flex;
@@ -39,8 +40,9 @@
             padding: 20px;
         }
 
+        /* 사이드바 */
         .sidebar {
-            width: 200px;
+            width: 250px;
             padding: 20px;
             background-color: #fff;
             border-right: 1px solid #ddd;
@@ -64,6 +66,7 @@
             font-weight: bold;
         }
 
+        /* 폼 영역 */
         .content {
             flex: 1;
             padding: 20px;
@@ -73,48 +76,54 @@
         }
 
         .content h2 {
-            font-size: 20px;
+            font-size: 24px;
             color: #333;
             margin-bottom: 20px;
         }
 
-        .form {
-            max-width: 600px;
-            margin: 0 auto;
+        /* 폼 스타일 */
+        .signup-form {
+            max-width: 600px; /* 폼의 최대 너비 */
+            margin: auto; /* 중앙 정렬 */
+            padding: 30px; /* 내부 여백 */
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="password"],
-        .form-group input[type="tel"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
+        .form-control {
+            width: 100%; /* 입력창 너비 */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
 
-        .form-actions {
-            text-align: center;
-            margin-top: 20px;
+        /* 읽기 전용 필드 */
+        .form-control[readonly] {
+            background-color: #f1f1f1;
+            cursor: not-allowed;
         }
 
-        .cancel-button,
-        .submit-button {
-            padding: 10px 20px;
+        /* 비밀번호 확인 일치 여부 */
+        .form-control.match {
+            background-color: #c8e6c9; /* 초록색 배경 */
+        }
+
+        .form-control.mismatch {
+            background-color: #ffcdd2; /* 빨간색 배경 */
+        }
+
+        /* 버튼 스타일 */
+        .btn-block {
+            width: 100%;
+            padding: 12px;
             font-size: 16px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .cancel-button {
@@ -125,14 +134,37 @@
 
         .submit-button {
             background-color: #1b9a2c;
-            color: #fff;
+            color: white;
         }
 
         .submit-button:hover {
             background-color: #206128;
         }
 
-        /* CSS 코드 끝 */
+        /* 모바일 화면을 위한 반응형 스타일 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        /* 상태 메시지 */
+        .status-message {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #999;
+        }
+
     </style>
 </head>
 <body layout:fragment="content">
@@ -148,43 +180,64 @@
 
     <div class="content">
         <h2>회원기본정보</h2>
-        <form action="/user/edit-profile" method="post" class="form">
+        <form action="/user/edit-profile" method="post" class="signup-form">
             <div class="form-group">
                 <label for="userId">아이디</label>
-                <input type="text" id="userId" name="username" th:value="${user.username}" readonly>
+                <input type="text" id="userId" name="username" th:value="${user.username}" class="form-control" readonly>
             </div>
 
             <div class="form-group">
                 <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required>
+                <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" class="form-control" readonly required>
             </div>
 
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="confirmPassword">비밀번호 확인</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="email" id="email" name="email" th:value="${user.email}" required>
+                <input type="email" id="email" name="email" th:value="${user.email}" class="form-control" required>
             </div>
 
             <div class="form-group">
                 <label for="mobile">휴대번호</label>
-                <input type="tel" id="mobile" name="mobile" th:value="${user.mobile}" required>
+                <input type="tel" id="mobile" name="mobile" th:value="${user.mobile}" class="form-control" required placeholder="010-1234-5678">
             </div>
 
             <div class="form-actions">
-                <button type="button" class="cancel-button" onclick="location.href='/mypage'">취소</button>
-                <button type="submit" class="submit-button">정보수정</button>
+                <button type="button" class="btn-block cancel-button" onclick="location.href='/mypage'">취소</button>
+                <button type="submit" class="btn-block submit-button" style="margin-top: 5px;">정보수정</button>
             </div>
         </form>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
+<script>
+    var im = new Inputmask("999-9999-9999"); // 형식: 010-1234-5678
+    im.mask(document.getElementById("mobile"));
+
+    // 비밀번호와 비밀번호 확인란의 일치 여부를 확인하는 JavaScript
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    confirmPasswordInput.addEventListener('input', function() {
+        if (passwordInput.value === confirmPasswordInput.value) {
+            confirmPasswordInput.classList.add('match');
+            confirmPasswordInput.classList.remove('mismatch');
+        } else {
+            confirmPasswordInput.classList.add('mismatch');
+            confirmPasswordInput.classList.remove('match');
+        }
+    });
+</script>
+
 </body>
 </html>

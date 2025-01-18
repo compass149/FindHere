@@ -28,7 +28,7 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
     private final BoardServiceImpl boardServiceImpl;
 
-    @GetMapping("user/join")
+    @GetMapping("/user/join")
     public void join() {
         log.info("회원가입 페이지 요청");
     }
@@ -103,7 +103,7 @@ public class UserController {
         log.info("사용자 프로필 수정 완료: {}", existingUser);
 
         // 수정 완료 페이지로 리디렉션
-        return "redirect:/user/profile";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/user/delete-account")

@@ -49,8 +49,8 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #A3D879;
+            border-color: #A3D879;
         }
 
         label {
@@ -163,77 +163,45 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table detail-table mt-0 mb-30">
-                        <caption>
-                            분실동물 정보로 품종, 성별, 특징, 몸무게, 털색상, 길이, 나이, 발견장소를 안내하고 있습니다.
-                        </caption>
-                        <colgroup>
-                            <col style="width: 17%">
-                            <col style="width: 23%">
-                            <col style="width: 17%">
-                            <col style="width: 23%">
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <th scope="row" class="first">품종</th>
-                            <td class="text-left">[[${dto.petBreeds}]]</td>
-                            <th scope="row">털 색상</th>
-                            <td class="text-left last">[[${dto.petColor.color}]]</td>
-                            <th scope="row"  th:unless="${dto.postType == '동물찾기'}">이름</th>
-                            <td class="text-left last"  th:unless="${dto.postType == '동물찾기'}">[[${dto.petName}]]</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="first">성별</th>
-                            <td class="text-left">[[${dto.petGender}]]</td>
-                            <th scope="row"  th:unless="${dto.postType == '주인찾기'}">나이</th>
-                            <td class="text-left last" th:unless="${dto.postType == '주인찾기'}">[[${dto.petAge}]]</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="first">특징(구체적 묘사)</th>
-                            <td class="text-left last" colspan="3">[[${dto.petDescription}]]</td>
-                            <th scope="row" class="first">몸무게</th>
-                            <td class="text-left last" colspan="3">[[${dto.petWeight}]]Kg</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="first"
-                                th:text="${dto.postType == '주인찾기' ? '발견장소' : '잃어버린 장소'}"></th>
-                            <td class="text-left last" colspan="3">[[${dto.location}]] [[${dto.locationDetail}]]</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div id="map" style="width:500px;height:400px;"></div>
-                    <script type="text/javascript"
-                            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41caa1d7d9b7baa2f49d25f886b4dc1f"></script>
-                    <script type="text/javascript"
-                            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=LIBRARY"></script>
-                    <script type="text/javascript"
-                            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services"></script>
 
+                    <!-- 지도 표시 영역 -->
+                    <div id="map" style="width:500px;height:400px;"></div>
+
+                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services"></script>
                     <script>
+                        // 카카오 지도 API 초기화
                         var container = document.getElementById('map');
                         var options = {
-                            center: new kakao.maps.LatLng(33.450701, 126.570667),
+                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 기본 위치
                             level: 3
                         };
-
                         var map = new kakao.maps.Map(container, options);
-                    </script>
-                    <script>
-                        var places = new kakao.maps.services.Places();
 
-                        var callback = function (result, status) {
+                        // 주소 -> 좌표 변환 객체 생성
+                        var geocoder = new kakao.maps.services.Geocoder();
+
+                        // 게시글에서 받은 위치 정보 (예: '서울시 강남구 테헤란로 123')
+                        var address = '[[${dto.location}]] [[${dto.locationDetail}]]'; // 입력된 주소
+
+                        // 주소로 좌표 변환
+                        geocoder.addressSearch(address, function(result, status) {
                             if (status === kakao.maps.services.Status.OK) {
                                 var lat = result[0].y;
                                 var lng = result[0].x;
-                                var mapOptions = {
-                                    center: new kakao.maps.LatLng(lat, lng),
-                                    level: 3
-                                };
-                                var map = new kakao.maps.Map(container, mapOptions);
-                            }
-                        };
 
-                        places.keywordSearch('[[${dto.location}]]', callback);
+                                // 변환된 좌표로 지도 위치 변경
+                                var latLng = new kakao.maps.LatLng(lat, lng);
+                                map.setCenter(latLng); // 지도 중심을 좌표로 설정
+
+                                // 마커 추가
+                                var marker = new kakao.maps.Marker({
+                                    position: latLng
+                                });
+                                marker.setMap(map); // 마커 지도에 표시
+                            } else {
+                                alert("주소를 찾을 수 없습니다.");
+                            }
+                        });
                     </script>
 
                     <div class="my-4">
@@ -362,8 +330,8 @@
     }
 
     function printReplies(page, size, goLast) {
-        alert(cno)
-        getList({cno, page, size, goLast}).then(
+        alert(rno)
+        getList({rno, page, size, goLast}).then(
             data => {
                 printList(data.dtoList);
                 printPages(data);
@@ -391,13 +359,13 @@
     }, false);
 
     registerBtn.addEventListener("click", function (e) {
-        if (!cno) {
+        if (!rno) {
             alert("게시글 번호가 없습니다.");
             return;
         }
 
         const replyObj = {
-            cno: cno,
+            rno: rno,
             replyText: replyText.value,
             replyer: replyer.value
         };
