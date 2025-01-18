@@ -23,14 +23,28 @@
                 <div class="col-md-4 text-center">
                     <div class="item">
                         <p style="font-family: 'Nunito', sans-serif;">내 반려동물 찾기</p>
-                        <a th:href="@{/board/register}" title="동물찾기 글쓰기">
-                            <img th:src="@{/images/find-pet.PNG}" class="img-fluid rounded" alt="내 반려동물 찾기">
-                        </a>
+                        <!-- 로그인하지 않은 경우, 버튼 대신 알림 메시지 표시 -->
+                        <div th:if="${#authentication.principal == null}">
+                            <div class="alert alert-warning" role="alert">
+                                글 작성은 로그인 후 가능합니다.
+                            </div>
+                        </div>
+                        <!-- 로그인한 경우에만 링크 표시 -->
+                        <div th:unless="${#authentication.principal == null}">
+                            <a th:href="@{/board/register}" title="동물찾기 글쓰기">
+                                <img th:src="@{/images/find-pet.PNG}" class="img-fluid rounded" alt="내 반려동물 찾기">
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4 text-center">
                     <div class="item">
                         <p style="font-family: 'Nunito', sans-serif;">주인을 기다리고 있어요</p>
+                        <div th:if="${#authentication.principal == null}">
+                            <div class="alert alert-warning" role="alert">
+                                글 작성은 로그인 후 가능합니다.
+                            </div>
+                        </div>
                         <a th:href="@{/board/register1}" title="주인찾기 글쓰기">
                             <img th:src="@{/images/wait.PNG}" class="img-fluid rounded" alt="주인을 기다리고 있어요">
                         </a>
